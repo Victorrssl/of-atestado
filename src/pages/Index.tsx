@@ -14,8 +14,6 @@ import StepSummary from '@/components/steps/StepSummary';
 
 interface FormData {
   cpf: string;
-  name: string;
-  birthDate: string;
   symptoms: string;
   otherSymptoms: string;
   symptomStart: string;
@@ -33,8 +31,6 @@ const Index = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<FormData>({
     cpf: '',
-    name: 'João da Silva Santos',
-    birthDate: '15/03/1985',
     symptoms: '',
     otherSymptoms: '',
     symptomStart: '',
@@ -47,6 +43,9 @@ const Index = () => {
     period: 0,
     price: 0,
   });
+
+  // URL do checkout - edite aqui para redirecionar para seu gateway de pagamento
+  const checkoutUrl = '#';
 
   const stepLabels = [
     'Início',
@@ -143,8 +142,6 @@ const Index = () => {
           <StepSummary
             data={{
               cpf: formData.cpf,
-              name: formData.name,
-              birthDate: formData.birthDate,
               symptoms: formData.symptoms,
               email: formData.email,
               phone: formData.phone,
@@ -152,6 +149,7 @@ const Index = () => {
               price: formData.price,
             }}
             onBack={handleBack}
+            checkoutUrl={checkoutUrl}
           />
         );
       default:

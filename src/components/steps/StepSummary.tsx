@@ -1,10 +1,8 @@
 import { Button } from '@/components/ui/button';
-import { FileText, User, CreditCard, Calendar, Mail, Phone, Activity, AlertCircle, DollarSign } from 'lucide-react';
+import { FileText, CreditCard, Calendar, Mail, Phone, Activity, AlertCircle, DollarSign, ExternalLink } from 'lucide-react';
 
 interface SummaryData {
   cpf: string;
-  name: string;
-  birthDate: string;
   symptoms: string;
   email: string;
   phone: string;
@@ -15,13 +13,12 @@ interface SummaryData {
 interface StepSummaryProps {
   data: SummaryData;
   onBack: () => void;
+  checkoutUrl?: string;
 }
 
-const StepSummary = ({ data, onBack }: StepSummaryProps) => {
+const StepSummary = ({ data, onBack, checkoutUrl = '#' }: StepSummaryProps) => {
   const summaryItems = [
-    { icon: User, label: 'Nome', value: data.name },
     { icon: CreditCard, label: 'CPF', value: data.cpf },
-    { icon: Calendar, label: 'Data de Nascimento', value: data.birthDate },
     { icon: Calendar, label: 'Período', value: `${data.period} ${data.period === 1 ? 'dia' : 'dias'}` },
     { icon: Activity, label: 'Sintomas', value: data.symptoms },
     { icon: Mail, label: 'E-mail', value: data.email },
@@ -81,22 +78,42 @@ const StepSummary = ({ data, onBack }: StepSummaryProps) => {
             <div className="text-sm">
               <p className="font-medium text-foreground mb-1">Importante</p>
               <p className="text-muted-foreground">
-                O envio da avaliação ocorrerá após a confirmação do processo. 
+                O envio da avaliação ocorrerá após a confirmação do pagamento. 
                 Você receberá todas as informações por e-mail e WhatsApp.
               </p>
             </div>
           </div>
 
-          {/* Button */}
-          <Button 
-            type="button" 
-            variant="outline" 
-            size="lg"
-            className="w-full"
-            onClick={onBack}
-          >
-            Voltar
-          </Button>
+          {/* Buttons */}
+          <div className="flex flex-col gap-3">
+            {/* Checkout Button - Editable link */}
+            <a 
+              href={checkoutUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full"
+            >
+              <Button 
+                type="button" 
+                variant="hero" 
+                size="xl"
+                className="w-full"
+              >
+                Ir para Pagamento
+                <ExternalLink className="w-5 h-5 ml-2" />
+              </Button>
+            </a>
+
+            <Button 
+              type="button" 
+              variant="outline" 
+              size="lg"
+              className="w-full"
+              onClick={onBack}
+            >
+              Voltar
+            </Button>
+          </div>
 
           {/* Disclaimer */}
           <p className="text-xs text-muted-foreground text-center mt-6">
