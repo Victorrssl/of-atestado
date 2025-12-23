@@ -10,7 +10,7 @@ interface PricingOption {
 }
 
 interface StepPeriodSelectionProps {
-  onNext: (selection: PricingOption) => void;
+  onNext: (selection: { days: number; price: number; link: string }) => void;
   onBack: () => void;
 }
 
@@ -18,12 +18,12 @@ const StepPeriodSelection = ({ onNext, onBack }: StepPeriodSelectionProps) => {
   const [selected, setSelected] = useState<number | null>(null);
 
   const options: PricingOption[] = [
-    { days: 1, price: 29.90, link: '#' },
-    { days: 3, price: 39.90, link: '#' },
-    { days: 5, price: 49.90, link: '#' },
-    { days: 7, price: 59.90, link: '#' },
-    { days: 10, price: 74.90, link: '#' },
-    { days: 14, price: 94.90, link: '#' },
+    { days: 1, price: 29.90, link: 'https://pay.pagamentosegurohub.shop/a6pVgd2KjDzZk7B' },
+    { days: 3, price: 39.90, link: 'https://pay.pagamentosegurohub.shop/KV603koLl9m3w8y' },
+    { days: 5, price: 49.90, link: 'https://pay.pagamentosegurohub.shop/QqyLgqokBYbZvkE' },
+    { days: 7, price: 59.90, link: 'https://pay.pagamentosegurohub.shop/a6pVgd2KapzZk7B' },
+    { days: 10, price: 74.90, link: 'https://pay.pagamentosegurohub.shop/PVYB34e0V1dZKzk' },
+    { days: 14, price: 94.90, link: 'https://pay.pagamentosegurohub.shop/YL9jZDW87Jm3p4q' },
   ];
 
   const handleSelect = (index: number) => {
