@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedOnline - Avaliação Médica Online</title>
+  <meta name="description" content="Solicite sua avaliação médica online de forma rápida e segura.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #0ea5e9;
+      --primary-dark: #0284c7;
+      --primary-light: #e0f2fe;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --background: #ffffff;
+      --background-muted: #f8fafc;
+      --border: #e2e8f0;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .hidden { display: none !important; }
+
+    /* Container */
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Card */
+    .card {
+      background: var(--background);
+      border-radius: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      padding: 32px;
+      border: 1px solid var(--border);
+    }
+
+    /* Header */
+    .step-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .step-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .step-icon svg {
+      width: 32px;
+      height: 32px;
+      color: var(--primary);
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 0.875rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-outline:hover {
+      background: var(--background-muted);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn-group .btn {
+      flex: 1;
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      background: var(--background);
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      text-align: center;
+      margin-top: 8px;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .hero-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      text-align: center;
+      background: linear-gradient(180deg, var(--background) 0%, var(--primary-light) 100%);
+    }
+
+    .hero-content h1 {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+
+    .hero-content p {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      max-width: 500px;
+      margin-bottom: 32px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 48px;
+      max-width: 600px;
+    }
+
+    .feature {
+      background: var(--background);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .feature svg {
+      width: 32px;
+      height: 32px;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .feature h3 {
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .feature p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    /* Step Container */
+    .step-container {
+      min-height: 100vh;
+      background: var(--background-muted);
+      padding: 80px 20px 40px;
+    }
+
+    /* Pricing Grid */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    @media (min-width: 640px) {
+      .pricing-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .pricing-card {
+      background: var(--background);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+    }
+
+    .pricing-card:hover {
+      border-color: var(--primary);
+    }
+
+    .pricing-card.selected {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .pricing-card .days {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .pricing-card .days-label {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    .pricing-card .price {
+      margin-top: 12px;
+      color: var(--primary);
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .pricing-card .price-currency {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    /* Summary */
+    .summary-box {
+      background: var(--background-muted);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .summary-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .summary-item:last-child {
+      border-bottom: none;
+    }
+
+    .summary-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .summary-icon svg {
+      width: 20px;
+      height: 20px;
+      color: var(--primary);
+    }
+
+    .summary-label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .summary-value {
+      font-weight: 600;
+    }
+
+    .price-box {
+      background: var(--primary-light);
+      border: 2px solid var(--primary);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .price-box .label {
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+
+    .price-box .value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .notice {
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .notice svg {
+      width: 20px;
+      height: 20px;
+      color: var(--warning);
+      flex-shrink: 0;
+    }
+
+    .notice p {
+      font-size: 0.875rem;
+    }
+
+    /* Analysis Animation */
+    .analysis-container {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .spinner {
+      width: 80px;
+      height: 80px;
+      border: 4px solid var(--primary-light);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 24px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .analysis-progress {
+      max-width: 400px;
+      margin: 24px auto 0;
+    }
+
+    .analysis-bar {
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .analysis-fill {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    .analysis-percent {
+      margin-top: 8px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* Success */
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #dcfce7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+
+    .success-icon svg {
+      width: 40px;
+      height: 40px;
+      color: var(--success);
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--text);
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .footer p {
+      color: #94a3b8;
+      font-size: 0.875rem;
+    }
+
+    /* Radio Options */
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .radio-option:hover {
+      border-color: var(--primary);
+    }
+
+    .radio-option.selected {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .radio-option input {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--primary);
+    }
+
+    /* Fade animation */
+    .fade-in {
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Step 0: Hero -->
+  <section id="step-hero" class="hero">
+    <header class="hero-header">
+      <div class="logo">MedOnline</div>
+    </header>
+    <div class="hero-content">
+      <h1>Avaliação Médica Online</h1>
+      <p>Solicite sua avaliação de forma rápida, segura e sem sair de casa. Profissionais qualificados prontos para atendê-lo.</p>
+      <button class="btn btn-primary" onclick="goToStep(1)">
+        Solicitar Avaliação
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+      <div class="features">
+        <div class="feature">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+          <h3>100% Seguro</h3>
+          <p>Dados protegidos</p>
+        </div>
+        <div class="feature">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <h3>Rápido</h3>
+          <p>Em poucos minutos</p>
+        </div>
+        <div class="feature">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <h3>Profissionais</h3>
+          <p>Equipe qualificada</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Progress Bar (hidden on hero) -->
+  <div id="progress-container" class="progress-container hidden">
+    <div class="progress-bar">
+      <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+    </div>
+    <div id="progress-text" class="progress-text">Passo 1 de 7</div>
+  </div>
+
+  <!-- Step 1: CPF -->
+  <section id="step-cpf" class="step-container hidden">
+    <div class="container fade-in">
+      <div class="card">
+        <div class="step-header">
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+          </div>
+          <h1>Digite seu CPF</h1>
+          <p class="subtitle">Precisamos do seu CPF para continuar</p>
+        </div>
+        <div class="form-group">
+          <label for="cpf">CPF</label>
+          <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14" oninput="formatCPF(this)">
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-outline" onclick="goToStep(0)">Voltar</button>
+          <button class="btn btn-primary" onclick="validateCPF()">Continuar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 2: Confirm Data -->
+  <section id="step-confirm" class="step-container hidden">
+    <div class="container fade-in">
+      <div class="card">
+        <div class="step-header">
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          </div>
+          <h1>Confirme seus Dados</h1>
+          <p class="subtitle">Verifique se o CPF está correto</p>
+        </div>
+        <div class="summary-box">
+          <div class="summary-item">
+            <div class="summary-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+            </div>
+            <div>
+              <p class="summary-label">CPF</p>
+              <p id="confirm-cpf" class="summary-value">-</p>
+            </div>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-outline" onclick="goToStep(1)">Voltar</button>
+          <button class="btn btn-primary" onclick="goToStep(3)">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 3: Symptoms -->
+  <section id="step-symptoms" class="step-container hidden">
+    <div class="container fade-in">
+      <div class="card">
+        <div class="step-header">
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <h1>Descreva seus Sintomas</h1>
+          <p class="subtitle">Conte-nos o que está sentindo</p>
+        </div>
+        <div class="form-group">
+          <label for="symptoms">Principais sintomas</label>
+          <select id="symptoms">
+            <option value="">Selecione...</option>
+            <option value="Dor de cabeça">Dor de cabeça</option>
+            <option value="Febre">Febre</option>
+            <option value="Dor no corpo">Dor no corpo</option>
+            <option value="Tosse">Tosse</option>
+            <option value="Náusea">Náusea</option>
+            <option value="Fadiga">Fadiga</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="other-symptoms">Descreva detalhes adicionais</label>
+          <textarea id="other-symptoms" placeholder="Descreva outros sintomas ou mais detalhes..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Há quanto tempo sente os sintomas?</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="duration" value="Menos de 24 horas"> Menos de 24 horas
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="duration" value="1-3 dias"> 1-3 dias
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="duration" value="Mais de 3 dias"> Mais de 3 dias
+            </label>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-outline" onclick="goToStep(2)">Voltar</button>
+          <button class="btn btn-primary" onclick="validateSymptoms()">Continuar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 4: Contact -->
+  <section id="step-contact" class="step-container hidden">
+    <div class="container fade-in">
+      <div class="card">
+        <div class="step-header">
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </div>
+          <h1>Dados de Contato</h1>
+          <p class="subtitle">Como podemos entrar em contato</p>
+        </div>
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" placeholder="seu@email.com">
+        </div>
+        <div class="form-group">
+          <label for="phone">WhatsApp</label>
+          <input type="tel" id="phone" placeholder="(00) 00000-0000" maxlength="15" oninput="formatPhone(this)">
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-outline" onclick="goToStep(3)">Voltar</button>
+          <button class="btn btn-primary" onclick="validateContact()">Continuar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 5: Analysis -->
+  <section id="step-analysis" class="step-container hidden">
+    <div class="container fade-in">
+      <div class="card">
+        <div class="analysis-container">
+          <div class="spinner"></div>
+          <h1>Analisando seus dados...</h1>
+          <p class="subtitle">Por favor, aguarde enquanto processamos suas informações</p>
+          <div class="analysis-progress">
+            <div class="analysis-bar">
+              <div id="analysis-fill" class="analysis-fill"></div>
+            </div>
+            <p id="analysis-percent" class="analysis-percent">0%</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 6: Analysis Complete -->
+  <section id="step-complete" class="step-container hidden">
+    <div class="container fade-in">
+      <div class="card">
+        <div class="step-header">
+          <div class="success-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          </div>
+          <h1>Análise Concluída!</h1>
+          <p class="subtitle">Sua avaliação está pronta para ser emitida</p>
+        </div>
+        <p style="text-align: center; margin-bottom: 24px; color: var(--text-muted);">
+          Selecione o período desejado para receber sua avaliação médica.
+        </p>
+        <button class="btn btn-primary btn-full" onclick="goToStep(7)">
+          Selecionar Período
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 7: Period Selection -->
+  <section id="step-period" class="step-container hidden">
+    <div class="container fade-in">
+      <div class="card">
+        <div class="step-header">
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+          </div>
+          <h1>Selecione o Período</h1>
+          <p class="subtitle">Escolha o período desejado para sua avaliação</p>
+        </div>
+        <div class="pricing-grid">
+          <div class="pricing-card" onclick="selectPeriod(0, 1, 29.90, 'https://pay.pagamentosegurohub.shop/a6pVgd2KjDzZk7B')">
+            <div class="days">1</div>
+            <div class="days-label">dia</div>
+            <div class="price"><span class="price-currency">R$</span> 29,90</div>
+          </div>
+          <div class="pricing-card" onclick="selectPeriod(1, 3, 39.90, 'https://pay.pagamentosegurohub.shop/KV603koLl9m3w8y')">
+            <div class="days">3</div>
+            <div class="days-label">dias</div>
+            <div class="price"><span class="price-currency">R$</span> 39,90</div>
+          </div>
+          <div class="pricing-card" onclick="selectPeriod(2, 5, 49.90, 'https://pay.pagamentosegurohub.shop/QqyLgqokBYbZvkE')">
+            <div class="days">5</div>
+            <div class="days-label">dias</div>
+            <div class="price"><span class="price-currency">R$</span> 49,90</div>
+          </div>
+          <div class="pricing-card" onclick="selectPeriod(3, 7, 59.90, 'https://pay.pagamentosegurohub.shop/a6pVgd2KapzZk7B')">
+            <div class="days">7</div>
+            <div class="days-label">dias</div>
+            <div class="price"><span class="price-currency">R$</span> 59,90</div>
+          </div>
+          <div class="pricing-card" onclick="selectPeriod(4, 10, 74.90, 'https://pay.pagamentosegurohub.shop/PVYB34e0V1dZKzk')">
+            <div class="days">10</div>
+            <div class="days-label">dias</div>
+            <div class="price"><span class="price-currency">R$</span> 74,90</div>
+          </div>
+          <div class="pricing-card" onclick="selectPeriod(5, 14, 94.90, 'https://pay.pagamentosegurohub.shop/YL9jZDW87Jm3p4q')">
+            <div class="days">14</div>
+            <div class="days-label">dias</div>
+            <div class="price"><span class="price-currency">R$</span> 94,90</div>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-outline" onclick="goToStep(6)">Voltar</button>
+          <button id="btn-period-continue" class="btn btn-primary" onclick="goToStep(8)" disabled>Continuar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 8: Summary -->
+  <section id="step-summary" class="step-container hidden">
+    <div class="container fade-in">
+      <div class="card">
+        <div class="step-header">
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <h1>Resumo da Solicitação</h1>
+          <p class="subtitle">Confira os dados antes de finalizar</p>
+        </div>
+        <div class="summary-box">
+          <div class="summary-item">
+            <div class="summary-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+            </div>
+            <div>
+              <p class="summary-label">CPF</p>
+              <p id="summary-cpf" class="summary-value">-</p>
+            </div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+            </div>
+            <div>
+              <p class="summary-label">Período</p>
+              <p id="summary-period" class="summary-value">-</p>
+            </div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <div>
+              <p class="summary-label">Sintomas</p>
+              <p id="summary-symptoms" class="summary-value">-</p>
+            </div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </div>
+            <div>
+              <p class="summary-label">E-mail</p>
+              <p id="summary-email" class="summary-value">-</p>
+            </div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+              <p class="summary-label">WhatsApp</p>
+              <p id="summary-phone" class="summary-value">-</p>
+            </div>
+          </div>
+        </div>
+        <div class="price-box">
+          <div class="label">Valor Total</div>
+          <div id="summary-price" class="value">R$ 0,00</div>
+        </div>
+        <div class="notice">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+          <div>
+            <p><strong>Importante:</strong> O envio da avaliação ocorrerá após a confirmação do pagamento. Você receberá todas as informações por e-mail e WhatsApp.</p>
+          </div>
+        </div>
+        <a id="checkout-btn" href="#" target="_blank" class="btn btn-primary btn-full" style="margin-bottom: 12px;">
+          Ir para Pagamento
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+        </a>
+        <button class="btn btn-outline btn-full" onclick="goToStep(7)">Voltar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="footer" class="footer hidden">
+    <p>&copy; 2024 MedOnline. Todos os direitos reservados.</p>
+    <p style="margin-top: 8px;">Este é um sistema demonstrativo.</p>
+  </footer>
+
+  <script>
+    // Form Data
+    const formData = {
+      cpf: '',
+      symptoms: '',
+      otherSymptoms: '',
+      duration: '',
+      email: '',
+      phone: '',
+      period: 0,
+      price: 0,
+      checkoutUrl: ''
+    };
+
+    let currentStep = 0;
+    let selectedPeriodIndex = -1;
+
+    // Steps mapping
+    const steps = [
+      'step-hero',
+      'step-cpf',
+      'step-confirm',
+      'step-symptoms',
+      'step-contact',
+      'step-analysis',
+      'step-complete',
+      'step-period',
+      'step-summary'
+    ];
+
+    function goToStep(step) {
+      // Hide all steps
+      steps.forEach(s => {
+        document.getElementById(s).classList.add('hidden');
+      });
+
+      // Show target step
+      document.getElementById(steps[step]).classList.remove('hidden');
+
+      // Update progress bar
+      const progressContainer = document.getElementById('progress-container');
+      const footer = document.getElementById('footer');
+
+      if (step === 0) {
+        progressContainer.classList.add('hidden');
+        footer.classList.remove('hidden');
+      } else if (step === 5) {
+        progressContainer.classList.add('hidden');
+        footer.classList.add('hidden');
+        startAnalysis();
+      } else {
+        progressContainer.classList.remove('hidden');
+        footer.classList.add('hidden');
+        updateProgress(step);
+      }
+
+      if (step === 8) {
+        footer.classList.remove('hidden');
+        updateSummary();
+      }
+
+      currentStep = step;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateProgress(step) {
+      const totalSteps = 7;
+      const progress = (step / totalSteps) * 100;
+      document.getElementById('progress-fill').style.width = progress + '%';
+      document.getElementById('progress-text').textContent = `Passo ${step} de ${totalSteps}`;
+    }
+
+    // CPF Formatting
+    function formatCPF(input) {
+      let value = input.value.replace(/\D/g, '');
+      if (value.length > 11) value = value.slice(0, 11);
+      
+      if (value.length > 9) {
+        value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+      } else if (value.length > 6) {
+        value = value.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+      } else if (value.length > 3) {
+        value = value.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+      }
+      
+      input.value = value;
+    }
+
+    function validateCPF() {
+      const cpf = document.getElementById('cpf').value;
+      if (cpf.length < 14) {
+        alert('Por favor, digite um CPF válido.');
+        return;
+      }
+      formData.cpf = cpf;
+      document.getElementById('confirm-cpf').textContent = cpf;
+      goToStep(2);
+    }
+
+    // Phone Formatting
+    function formatPhone(input) {
+      let value = input.value.replace(/\D/g, '');
+      if (value.length > 11) value = value.slice(0, 11);
+      
+      if (value.length > 6) {
+        value = value.replace(/(\d{2})(\d{5})(\d{1,4})/, '($1) $2-$3');
+      } else if (value.length > 2) {
+        value = value.replace(/(\d{2})(\d{1,5})/, '($1) $2');
+      }
+      
+      input.value = value;
+    }
+
+    function validateSymptoms() {
+      const symptoms = document.getElementById('symptoms').value;
+      const otherSymptoms = document.getElementById('other-symptoms').value;
+      const duration = document.querySelector('input[name="duration"]:checked');
+
+      if (!symptoms) {
+        alert('Por favor, selecione um sintoma.');
+        return;
+      }
+
+      formData.symptoms = symptoms;
+      formData.otherSymptoms = otherSymptoms;
+      formData.duration = duration ? duration.value : '';
+      
+      goToStep(4);
+    }
+
+    function validateContact() {
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+
+      if (!email || !email.includes('@')) {
+        alert('Por favor, digite um e-mail válido.');
+        return;
+      }
+
+      if (phone.length < 14) {
+        alert('Por favor, digite um telefone válido.');
+        return;
+      }
+
+      formData.email = email;
+      formData.phone = phone;
+      
+      goToStep(5);
+    }
+
+    function startAnalysis() {
+      let progress = 0;
+      const fill = document.getElementById('analysis-fill');
+      const percent = document.getElementById('analysis-percent');
+
+      const interval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          setTimeout(() => goToStep(6), 500);
+        }
+        fill.style.width = progress + '%';
+        percent.textContent = Math.round(progress) + '%';
+      }, 300);
+    }
+
+    function selectPeriod(index, days, price, url) {
+      // Remove selection from all
+      document.querySelectorAll('.pricing-card').forEach((card, i) => {
+        card.classList.remove('selected');
+      });
+
+      // Add selection to clicked
+      document.querySelectorAll('.pricing-card')[index].classList.add('selected');
+
+      formData.period = days;
+      formData.price = price;
+      formData.checkoutUrl = url;
+      selectedPeriodIndex = index;
+
+      document.getElementById('btn-period-continue').disabled = false;
+    }
+
+    function updateSummary() {
+      document.getElementById('summary-cpf').textContent = formData.cpf;
+      document.getElementById('summary-period').textContent = formData.period + (formData.period === 1 ? ' dia' : ' dias');
+      document.getElementById('summary-symptoms').textContent = formData.symptoms + (formData.otherSymptoms ? ' - ' + formData.otherSymptoms : '');
+      document.getElementById('summary-email').textContent = formData.email;
+      document.getElementById('summary-phone').textContent = formData.phone;
+      document.getElementById('summary-price').textContent = 'R$ ' + formData.price.toFixed(2).replace('.', ',');
+      document.getElementById('checkout-btn').href = formData.checkoutUrl;
+    }
+
+    // Initialize
+    goToStep(0);
+  </script>
+</body>
+</html>
