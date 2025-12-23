@@ -25,6 +25,7 @@ interface FormData {
   phone: string;
   period: number;
   price: number;
+  checkoutLink: string;
 }
 
 const Index = () => {
@@ -42,10 +43,8 @@ const Index = () => {
     phone: '',
     period: 0,
     price: 0,
+    checkoutLink: '',
   });
-
-  // URL do checkout - edite aqui para redirecionar para seu gateway de pagamento
-  const checkoutUrl = '#';
 
   const stepLabels = [
     'Início',
@@ -101,8 +100,8 @@ const Index = () => {
     scrollToTop();
   };
 
-  const handlePeriodSelection = (selection: { days: number; price: number }) => {
-    setFormData(prev => ({ ...prev, period: selection.days, price: selection.price }));
+  const handlePeriodSelection = (selection: { days: number; price: number; link: string }) => {
+    setFormData(prev => ({ ...prev, period: selection.days, price: selection.price, checkoutLink: selection.link }));
     setCurrentStep(8);
     scrollToTop();
   };
@@ -149,7 +148,7 @@ const Index = () => {
               price: formData.price,
             }}
             onBack={handleBack}
-            checkoutUrl={checkoutUrl}
+            checkoutUrl={formData.checkoutLink}
           />
         );
       default:
